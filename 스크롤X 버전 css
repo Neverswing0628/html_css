@@ -1,0 +1,56 @@
+{{#if {{equal::{{role}}::char}} }}
+<div class="char-chat-body-wrapper">
+  <div class="info-wrapper">
+    <div class="character-name-container">
+      <div class="character-name">
+        <span class="char-name">{{char}}</span>
+      </div>
+    </div>
+    <div class="chat-image-icon">
+      <risuicon>
+    </div>
+  </div>
+  <div class="chat-wrapper">
+    <div class="control-panel">
+      <div class="geninfo">
+        <risugeninfo>
+      </div>
+      <div class="buttons">
+        <risubuttons>
+      </div>
+    </div>
+    <div class="chat-text-space" id="char-scroll-container">
+      <!-- 스크롤 앵커 요소와 관련 마크업 제거 -->
+      <risutextbox>
+    </div>
+  </div>
+</div>
+{{/if}}
+{{#if {{not_equal::{{role}}::char}} }}
+<div class="user-chat-body-wrapper">
+  <div class="chat-wrapper">
+    <div class="control-panel">
+      <div class="geninfo">
+        <risugeninfo>
+      </div>
+      <div class="buttons">
+        <risubuttons>
+      </div>
+    </div>
+    <div class="chat-text-space" id="user-scroll-container">
+      <!-- 스크롤 앵커 요소와 관련 마크업 제거 -->
+      <risutextbox>
+    </div>
+  </div>
+  <div class="info-wrapper">
+    <div class="chat-image-icon">
+      <risuicon>
+    </div>
+    <div class="character-name-container">
+      <div class="character-name">
+        <span class="user-name">{{user}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
