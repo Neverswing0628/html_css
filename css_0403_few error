@@ -1,0 +1,422 @@
+/*================= 폰트 =================== */
+@font-face {
+    font-family: "DungGeunMo";
+    src: local('Font1'), 
+         url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    unicode-range: U+1100-11FF, U+3130-318F, U+AC00-D7AF, U+0000-00FF; /* 한글과 기본 라틴 문자 */
+}
+
+/* Fallback */
+body {
+    font-family: "DungGeunMo", sans-serif;
+}
+
+/* 색깔 바꾸는 곳 */
+:root {
+    --char-color: #810000;
+   /* 캐릭터 이름 밑줄 색상 */
+    --user-color: #343131;
+   /* 유저 이름 밑줄 색상 */
+}
+
+/* =================== 글자 강조 스타일 =================== */
+/* 대사 */
+.chattext mark[risu-mark=quote2] {
+    display: block;
+    text-align: left;
+    text-align-last: left;
+    margin: 0;
+    width: fit-content;
+    word-break: keep-all;
+}
+/* *강조* */
+.chattext em{
+    background-color: var(--FontColorItalic);
+    color: var(--risu-theme-bgcolor);
+    display: inline-block;
+    padding-right: 0.1rem;
+    font-weight: bold;
+    opacity: 65%;
+}
+.chattext em:nth-child(3n) {
+    transform: rotate(-2deg);
+}
+.chattext em:nth-child(3n+1) {
+    transform: rotate(1deg);
+}
+.chattext em:nth-child(3n+2) {
+    transform: rotate(-1deg);
+}
+/* *""* */
+.chattext em > mark[risu-mark="quote2"] {
+    color: var(--risu-theme-bgcolor);
+}
+/* "**" */
+.chattext mark[risu-mark="quote2"] > em {
+    background-color: var(--FontColorStandard);
+    color: var(--risu-theme-bgcolor);
+}
+/* **** */
+.chattext strong {
+    color: var(--FontColorItalicBold);
+    font-size: 1.1rem;
+}
+
+/* =================== PC 레이아웃 =================== */
+/* 폰트 변경/삭제 */
+.risu-chat *{
+    font-family: DungGeunMo , sans-serif;
+}
+
+.risu-chat > div {
+    padding: 1rem;
+    margin: auto;
+}
+.risu-chat > div > div, .char-chat-body-wrapper, .user-chat-body-wrapper {
+    width: 95%;
+    margin: auto;
+}
+
+.chat-wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    overflow: hidden;
+    min-height: 0;
+    padding-left: 0.5rem; /* 추가: 왼쪽에 약간의 여백 */
+}
+
+
+/* 스크롤 관련 스타일 */
+.chat-text-space {
+    /* 기존 스타일 유지 */
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0.7rem;
+    border: 1px solid;
+    min-height: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    
+    /* 스크롤 동작 제어 */
+    overflow-anchor: auto; /* 중요: 브라우저의 스크롤 앵커링 활성화 */
+    overscroll-behavior: contain;
+    scroll-padding-top: 0;
+    scrollbar-gutter: stable;
+    
+    /* 기존 스타일 유지 */
+    display: flex;
+    flex-direction: column-reverse; /* 역순으로 배치하여 새 메시지가 상단에 오도록 함 */
+}
+
+/* 스크롤 앵커 */
+#char-scroll-top, #user-scroll-top {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    flex-shrink: 0;
+}
+
+/* risutextbox 관련 스타일 */
+.chat-text-space risutextbox {
+    display: block;
+    width: 100%;
+    flex: 1;
+}
+
+/* 새 메시지가 추가될 때 자동으로 맨 위로 스크롤되도록 함 */
+.chat-text-space::before {
+    content: "";
+    display: block;
+    height: 0;
+    width: 100%;
+    order: -9999;
+    flex-shrink: 0;
+}
+
+/* 첫 번째 로드 시 스크롤 위치 설정 */
+#char-scroll-container, #user-scroll-container {
+    scroll-snap-type: none;
+    initial-scroll-position: start; /* 초기 스크롤 위치를 맨 위로 설정 */
+}
+
+
+/* 편집 모드에서 스크롤바 표시를 위한 스타일 */
+.char-chat-body-wrapper .chat-text-space textarea,
+.user-chat-body-wrapper .chat-text-space textarea {
+    max-height: 100%;
+    min-height: 100px;
+    height: auto;
+    overflow-y: auto !important; /* 스크롤바 강제 표시 */
+    display: block;
+    width: 100%;
+    resize: vertical; /* 세로 리사이즈 가능하도록 설정 */
+}
+
+.chat-text-space.editing {
+    height: auto;
+    min-height: 200px;
+    max-height: 100%;
+    overflow-y: scroll !important;
+    position: relative;
+}
+
+/* 텍스트 에어리어에 대한 추가 스타일 */
+.chat-text-space textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 1.5;
+    overflow-y: auto !important;
+}
+
+.character-name {
+    line-height: 0.9;
+    font-size: 3.5rem;
+    font-family: "Arial Black", sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+
+/* =================== 채팅 UI 스타일 =================== */
+
+.char-chat-body-wrapper {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    gap: 0.75rem;
+    height: 46rem;
+    overflow: visible;
+    max-width: 130rem;
+    margin: 1rem auto;
+}
+.char-chat-body-wrapper .info-wrapper {
+    width: 15rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: visible;
+    padding-right: 0.5rem; /* 추가: 오른쪽에 약간의 여백 */
+}
+.char-chat-body-wrapper .character-name {
+    flex: 0 0 auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 15rem; /* 25rem에서 15rem으로 줄임 */
+    min-height: 3rem;
+    text-align: right;
+    z-index: 1;
+    word-wrap: break-word;
+    line-height: 0.85;
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
+    margin-left: 0; /* -10rem에서 0으로 변경 */
+    overflow: hidden; /* visible에서 hidden으로 변경 */
+    text-overflow: ellipsis; /* 텍스트가 너무 길면 말줄임표로 표시 */
+}
+.char-chat-body-wrapper .chat-image-icon {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    margin-bottom: 3rem;
+    overflow: visible;
+}
+.char-chat-body-wrapper .chat-wrapper {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+.chat-image-icon > div {
+    width: 100% !important;
+    height: 100% !important;
+    background-position: center !important;
+    background-size: cover !important;
+    border-radius: 0;
+}
+.character-name .char-name {
+    background-image: linear-gradient(0, var(--char-color) 50%, transparent 50%);
+    font-family: inherit;
+}
+
+.user-chat-body-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 15rem;
+    gap: 0.75rem;
+    height: 46rem;
+    max-width: 130rem; /* char-chat-body-wrapper와 동일한 max-width 설정 */
+    width: 95%; /* 가로 길이를 100%로 설정 */
+    margin: 1rem auto;
+}
+
+.user-chat-body-wrapper .info-wrapper,
+.user-chat-body-wrapper .chat-wrapper {
+    height: 100%;
+}
+
+.user-chat-body-wrapper .info-wrapper {
+    width: 15rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0.5rem; /* 추가: 왼쪽에 약간의 여백 */
+}
+
+.user-chat-body-wrapper .chat-image-icon {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-chat-body-wrapper .chat-image-icon > div {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    border: 7px solid #f8f8f8;
+}
+
+.user-chat-body-wrapper .character-name {
+    text-align: left;
+    width: 15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.character-name .user-name {
+    background-image: linear-gradient(0, var(--user-color) 50%, transparent 50%);
+    font-family: inherit;
+}
+
+.control-panel {
+    border-width: 1px 1px 0 1px;
+    padding: 0 0.7rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+}
+
+.geninfo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    z-index:10;
+}
+.geninfo > div {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 3px;
+    z-index:10;
+}
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index:10;
+}
+
+.user-chat-body-wrapper .control-panel {
+    padding: 5px 9px 5px 9px;
+}
+
+.control-panel button:focus {
+    outline: 2px solid #007bff; /* 접근성 개선을 위한 포커스 스타일 */
+}
+
+/* =================== 모바일 대응 (max-width: 768px) =================== */
+@media (max-width: 768px) {
+    .risu-chat > div {
+        padding: 0.5rem;
+    }
+    .risu-chat > div > div, .char-chat-body-wrapper, .user-chat-body-wrapper {
+        width: 98%;
+        margin: auto;
+        padding: 0;
+    }
+    .character-name{
+        font-weight: 900;
+    }
+    .char-chat-body-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+    .char-chat-body-wrapper .info-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        height: auto;
+        padding-right: 0; /* 모바일에서는 패딩 제거 */
+    }
+    .char-chat-body-wrapper .chat-image-icon > div {
+        width: 100% !important;
+        height: 7rem !important;
+        object-fit: cover;
+    }
+    .char-chat-body-wrapper .character-name {
+        position: relative;
+        text-align: left;
+        font-size: 3.5rem;
+        width: 100%;
+        z-index: 2;
+        margin: 10px 0 10px 0; /* 80px 0 -120px 0에서 변경 */
+        padding-bottom: 10px;
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .char-chat-body-wrapper .chat-wrapper {
+        margin-top: 0; /* -35px에서 0으로 변경 */
+        padding-left: 0; /* 모바일에서는 패딩 제거 */
+    }
+    .user-chat-body-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        gap: 5px;
+        margin-top: 1.8rem;
+        margin-bottom: 30px;
+        width: 100%; /* 가로 길이를 100%로 설정 */
+    }
+    .user-chat-body-wrapper .info-wrapper {
+        width: 100%;
+        order: -1;
+        height: auto;
+        min-height: 10.75rem;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        padding-left: 0; /* 모바일에서는 패딩 제거 */
+    }
+    .user-chat-body-wrapper .chat-image-icon > div {
+        width: 100% !important;
+        height: 14rem !important;
+        object-fit: cover;
+        border-width: 3px;
+    }
+    .user-chat-body-wrapper .character-name {
+        position: relative;
+        font-size: 3.5rem;
+        width: 100%;
+        z-index: 2;
+        margin: 10px 0 0 0; /* -2.5rem 0 0 0에서 변경 */
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .user-chat-body-wrapper .chat-wrapper {
+        margin-top: 0; /* 67px에서 0으로 변경 */
+        height: 100%;
+        padding-left: 0; /* 모바일에서는 패딩 제거 */
+    }
+}
